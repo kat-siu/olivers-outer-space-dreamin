@@ -193,36 +193,6 @@ $(window).ready(function(){
   requestAnimationFrame(game.loop());
 
 });
-// document.addEventListener("DOMContentLoaded", () => {
-//   debugger
-//   const canvas = document.getElementById("canvas");
-//   const ctx = canvas.getContext("2d");
-//
-//   // let background = new Background(ctx);
-//   // background.draw(ctx);
-//
-//
-//
-//   // let background = new Image();
-//   // background.src = './assets/images/ground.png';
-//   // background.onload = function() {
-//   //   ctx.drawImage(foreground, foreground_loc_x, foreground_loc_y, 600, 360);
-//   //   ctx.drawImage(foreground, foreground_loc_x + 600, foreground_loc_y, 600, 360);
-//   // };
-//   //
-//   // let foreground = new Image();
-//   // foreground.src = './assets/images/planet.jpg';
-//   // foreground.onload = function() {
-//   //   ctx.drawImage(foreground, 0, 0);
-//   // };
-
-//   //
-//   // const backgroundCanvas = document.getElementById('background-canvas');
-//   // const backgroundCanvasCtx = backgroundCanvas.getContext('2d');
-//   //
-//   // const foregroundCanvas = document.getElementById('foreground-canvas');
-//   // const foregroundCanvasCtx = foregroundCanvas.getContext('2d');
-// });
 
 
 /***/ }),
@@ -231,7 +201,8 @@ $(window).ready(function(){
 
 const Background = __webpack_require__(0);
 const Cat = __webpack_require__(1);
-const Score = __webpack_require__(4)
+const Food = __webpack_require__(5);
+const Score = __webpack_require__(4);
 
 class Game {
   constructor(canvas) {
@@ -239,6 +210,7 @@ class Game {
     this.canvas = canvas;
     this.background = new Background();
     this.cat = new Cat();
+    this.food = new Food();
     this.score = new Score();
 
     this.loop = this.loop.bind(this);
@@ -247,13 +219,15 @@ class Game {
   draw() {
     this.background.draw(this.ctx);
     this.cat.draw(this.ctx);
+    this.food.draw(this.ctx);
     this.score.draw(this.ctx);
   }
 
   update() {
     this.background.update();
     this.cat.update();
-    // this.score.update(this.score);
+    this.food.update();
+    this.score.update(0);
   }
 
   loop() {
@@ -290,6 +264,61 @@ class Score {
 }
 
 module.exports = Score;
+
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports) {
+
+class Food {
+  constructor() {
+    this.sushi = new Image();
+    this.drumstick = new Image();
+
+    this.sushi.src = './assets/images/sushi.png';
+    this.drumstick.src = './assets/images/drumstick.png';
+
+    function getRandomXLocation(min, max) {
+      return Math.floor(Math.random() * (max - min) + min);
+    }
+
+    function getRandomYLocation(min, max) {
+      return Math.floor(Math.random() * (max - min) + min);
+    }
+
+    this.sushi_loc_x = getRandomXLocation(120, 600);
+    this.sushi_loc_y = getRandomYLocation(10, 270);
+
+    this.drumstick_loc_x = getRandomXLocation(120, 600);
+    this.drumstick_loc_y = getRandomYLocation(10, 270);
+  }
+
+
+  update() {
+    this.sushi_loc_x -= 2;
+    this.drumstick_loc_x -= 2;
+
+    if (this.sushi_loc_x == -600) {
+      this.sushi_loc_x = 0;
+    }
+
+    if (this.drumstick_loc_x == -600) {
+      this.drumstick_loc_x = 0;
+    }
+  }
+
+  draw(ctx) {
+    ctx.drawImage(this.sushi, this.sushi_loc_x, this.sushi_loc_y);
+    ctx.drawImage(this.sushi, this.sushi_loc_x + 580, this.sushi_loc_y);
+
+    ctx.drawImage(this.drumstick, this.drumstick_loc_x, this.drumstick_loc_y);
+    ctx.drawImage(this.drumstick, this.drumstick_loc_x + 580, this.drumstick_loc_y);
+  }
+}
+
+module.exports = Food;
+
+// 600 (width) * 360 (height)
 
 
 /***/ })
