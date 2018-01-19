@@ -72,7 +72,7 @@ class Background {
     this.foreground = new Image();
     this.ground = new Image();
 
-    this.foreground.src = './assets/images/foreground.png';
+    this.foreground.src = './assets/images/stars.png';
     this.ground.src = './assets/images/ground.png';
 
     this.foreground_loc_x = 0;
@@ -115,10 +115,10 @@ module.exports = Background;
 class Cat {
   constructor() {
     this.spriteSheet = new Image();
-    this.spriteSheet.src = './assets/images/oliver-run.png'; // 40x34 sprites
+    this.spriteSheet.src = './assets/images/astro_oliver.png'; // 50x45 sprites
 
-    this.cat_width = 40;
-    this.cat_height = 34;
+    this.cat_width = 50;
+    this.cat_height = 45;
 
     // Location of Cat on screen
     this.cat_loc_x = 100;
@@ -136,7 +136,7 @@ class Cat {
         this.cat_sprite = 0;
     }
 
-    this.cat_sprite_buffer_width = 40 * parseInt(this.cat_sprite/10);
+    this.cat_sprite_buffer_width = 50 * parseInt(this.cat_sprite/10);
   }
 
   update() {
@@ -257,37 +257,6 @@ class Game {
     this.draw();
     requestAnimationFrame(this.loop);
   }
-
-  moveCat() {
-    this.cat.cat_loc_y -= 6; 
-  }
-
-  //
-  // handleKeyPress(e) {
-  //
-  // }
-  //
-  // controller = {
-  //   left: false,
-  //   right: false,
-  //   up: false,
-  //   keyListener: function(event) {
-  //     const key_state = (event.type == "keydown") ? true : false;
-  //     switch(event.keyCode) {
-  //       case 37: //left
-  //         controller.left = key_state;
-  //       break;
-  //       case 38: //up
-  //         controller.up = key_state;
-  //       break;
-  //       case 39: //right key
-  //         controller.right = key_state;
-  //     }
-  //   }
-  // }
-  //
-  // window.addEventListener("keydown", controller.keyListener);
-  // window.addEventListener("Keyup", controller.keyListener);
 }
 
 module.exports = Game;

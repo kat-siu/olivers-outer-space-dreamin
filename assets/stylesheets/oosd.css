@@ -4,13 +4,15 @@ body {
 }
 
 canvas, background-canvas, foreground-canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
   border: 1px solid black;
   z-index: 1;
   margin-top: 100px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+}
+
+.vsc-initialized {
+  margin: 0 auto;
+  width: 600px;
 }
