@@ -3,13 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <title>Oliver's Outer Space Dreamin'</title>
-  <link rel="stylesheet" href="./assets/stylesheets/oosd.css" type="text/css" media="screen">
-  <script type="text/javascript" src="oosd.js"></script>
+  <link rel="stylesheet" type="text/css" href="./assets/stylesheets/reset.css" />
+  <link rel="stylesheet" type="text/css" media="screen" href="./assets/stylesheets/oosd.css">
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="./bundle.js"></script>
   <script src="bundle.js"></script>
 </head>
 <body>
+  <div class="title">
+    <h1>Oliver's Outer Space Dreamin'</h1>
+  </div>
   <div class="wrapper">
-    <canvas id="myCanvas">
+    <canvas id="canvas" width="600px" height="360px">
+    <!-- <canvas id="background-canvas"></canvas>
+    <canvas id="foreground-canvas"></canvas> -->
       <p>Your browser does not support the required functionality to play this game.</p>
       <p>Please update to a modern browser such as <a href="www.google.com/chrome/‎">Google Chrome</a> to play.</p>
     </canvas>

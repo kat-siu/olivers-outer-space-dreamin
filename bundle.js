@@ -65,72 +65,246 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const Game = __webpack_require__(1);
+const Background = __webpack_require__(2);
+const Cat = __webpack_require__(3);
+
+$(window).ready(function(){
+  const canvas = document.getElementById("canvas");
+  const game = new Game(canvas);
+
+  requestAnimationFrame(game.loop());
+
+});
+// document.addEventListener("DOMContentLoaded", () => {
+//   debugger
+//   const canvas = document.getElementById("canvas");
+//   const ctx = canvas.getContext("2d");
+//
+//   // let background = new Background(ctx);
+//   // background.draw(ctx);
+//
+//
+//
+//   // let background = new Image();
+//   // background.src = './assets/images/ground.png';
+//   // background.onload = function() {
+//   //   ctx.drawImage(foreground, foreground_loc_x, foreground_loc_y, 600, 360);
+//   //   ctx.drawImage(foreground, foreground_loc_x + 600, foreground_loc_y, 600, 360);
+//   // };
+//   //
+//   // let foreground = new Image();
+//   // foreground.src = './assets/images/planet.jpg';
+//   // foreground.onload = function() {
+//   //   ctx.drawImage(foreground, 0, 0);
+//   // };
+//
+//
+//
+//
+//   //moving circle
+//   // ctx.beginPath();
+//   // ctx.rect(160, 10, 100, 40);
+//   // ctx.strokeStyle = "rgba(0, 0, 255, 0.5)";
+//   // ctx.stroke();
+//   // ctx.closePath();
+//   // var x = canvas.width/2;
+//   // var y = canvas.height-30;
+//   // var dx = 0;
+//   // var dy = 1;
+//   // var ballRadius = 10;
+//   //
+//   // function drawBall() {
+//   //   ctx.beginPath();
+//   //   ctx.arc(x, y, ballRadius, 0, Math.PI*2);
+//   //   ctx.fillStyle = "#0095DD";
+//   //   ctx.fill();
+//   //   ctx.closePath();
+//   // }
+//   //
+//   // function draw() {
+//   //   ctx.clearRect(0, 0, canvas.width, canvas.height);
+//   //   drawBall();
+//   //
+//   //   if (x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
+//   //     dx = -dx;
+//   //   }
+//   //   if (y + dy > canvas.height-ballRadius || y + dy < ballRadius) {
+//   //     dy = -dy;
+//   //   }
+//   //
+//   //   x += dx;
+//   //   y += dy;
+//   // }
+//   //
+//   // setInterval(draw, 10);
+//   //
+//   // const backgroundCanvas = document.getElementById('background-canvas');
+//   // const backgroundCanvasCtx = backgroundCanvas.getContext('2d');
+//   //
+//   // const foregroundCanvas = document.getElementById('foreground-canvas');
+//   // const foregroundCanvasCtx = foregroundCanvas.getContext('2d');
+// });
+
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const Background = __webpack_require__(2);
+const Cat = __webpack_require__(3);
+
+class Game {
+  constructor(canvas) {
+    this.ctx = canvas.getContext('2d');
+    this.canvas = canvas;
+    this.background = new Background();
+
+    this.loop = this.loop.bind(this);
+  }
+
+  draw() {
+    this.background.draw(this.ctx);
+  }
+
+  update() {
+    this.background.update();
+  }
+
+  loop() {
+    this.update();
+    this.draw();
+    requestAnimationFrame(this.loop);
+  }
+
+
+  //
+  // handleKeyPress(e) {
+  //
+  // }
+  //
+  // controller = {
+  //   left: false,
+  //   right: false,
+  //   up: false,
+  //   keyListener: function(event) {
+  //     const key_state = (event.type == "keydown") ? true : false;
+  //     switch(event.keyCode) {
+  //       case 37: //left
+  //         controller.left = key_state;
+  //       break;
+  //       case 38: //up
+  //         controller.up = key_state;
+  //       break;
+  //       case 39: //right key
+  //         controller.right = key_state;
+  //     }
+  //   }
+  // }
+  //
+  // window.addEventListener("keydown", controller.keyListener);
+  // window.addEventListener("Keyup", controller.keyListener);
+}
+
+module.exports = Game;
+
+
+/***/ }),
+/* 2 */
 /***/ (function(module, exports) {
 
-document.addEventListener("DOMContentLoaded", () => {
-  const canvas = document.getElementById("myCanvas");
-  const ctx = canvas.getContext("2d");
+class Background {
+  constructor() {
+    this.foreground = new Image();
+    this.ground = new Image();
 
-  // canvasEl.width = 800;
-  // canvasEl.height = 480;
+    this.foreground.src = './assets/images/foreground.png';
+    this.ground.src = './assets/images/ground.png';
 
-  // ctx.fillStyle = "gray";
-  // ctx.fillRect(0, 0, 800, 480);
+    this.foreground_loc_x = 0;
+    this.foreground_loc_y = 0;
 
-  // ctx.beginPath();
-  // ctx.rect(20, 400, 50, 50);
-  // ctx.fillStyle = "#FF0000";
-  // ctx.fill();
-  // ctx.closePath();
+    this.ground_loc_x = 0;
+    this.ground_loc_y = 300;
 
-  // ctx.beginPath();
-  // ctx.arc(240, 160, 20, 0, Math.PI*2, false);
-  // ctx.fillStyle = "green";
-  // ctx.fill();
-  // ctx.closePath();
-  
-  ctx.beginPath();
-  ctx.rect(160, 10, 100, 40);
-  ctx.strokeStyle = "rgba(0, 0, 255, 0.5)";
-  ctx.stroke();
-  ctx.closePath();
-  var x = canvas.width/2;
-  var y = canvas.height-30;
-  var dx = 2;
-  var dy = -2;
-  var ballRadius = 10;
-
-  function drawBall() {
-    ctx.beginPath();
-    ctx.arc(x, y, ballRadius, 0, Math.PI*2);
-    ctx.fillStyle = "#0095DD";
-    ctx.fill();
-    ctx.closePath();
   }
 
-  function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawBall();
+  update() {
+    this.foreground_loc_x -= 3;
+    this.ground_loc_x -= 1;
 
-    if (x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
-      dx = -dx;
-    }
-    if (y + dy > canvas.height-ballRadius || y + dy < ballRadius) {
-      dy = -dy;
+    if (this.foreground_loc_x == -600) {
+        this.foreground_loc_x = 0;
     }
 
-    x += dx;
-    y += dy;
+    if (this.ground_loc_x == -880) {
+        this.ground_loc_x = 0;
+    }
   }
 
-  setInterval(draw, 10);
-  //
-  // const backgroundCanvas = document.getElementById('background-canvas');
-  // const backgroundCanvasCtx = backgroundCanvas.getContext('2d');
-  //
-  // const foregroundCanvas = document.getElementById('foreground-canvas');
-  // const foregroundCanvasCtx = foregroundCanvas.getContext('2d');
-});
+  draw(ctx) {
+    ctx.drawImage(this.foreground, this.foreground_loc_x, this.foreground_loc_y, 600, 360);
+    ctx.drawImage(this.foreground, this.foreground_loc_x + 600, this.foreground_loc_y, 600, 360);
+
+    ctx.drawImage(this.ground, this.ground_loc_x, this.ground_loc_y, 880, 60);
+    ctx.drawImage(this.ground, this.ground_loc_x + 880, this.ground_loc_y, 880, 60);
+  }
+}
+
+module.exports = Background;
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports) {
+
+class Cat {
+  constructor() {
+    this.spriteSheet = new Image();
+    this.spriteSheet.src = './assets/images/oliver-run.png'; // 40x34 sprites
+
+    this.cat_width = 40;
+    this.cat_height = 34;
+
+    // Location of Cat on screen
+    this.cat_loc_x = 120;
+    this.cat_loc_y = 270;
+
+    this.cat_sprite = 0;
+  }
+
+  run() {
+    this.cat_sprite++;
+
+    if (this.cat_sprite == 60) {
+        this.cat_sprite = 0;
+    }
+
+    this.cat_sprite_buffer_width = 40 * parseInt(this.cat_sprite/10);
+  }
+
+  jump() {
+
+  }
+
+  update() {
+    if (this.cat_loc_y == 270) {
+        this.run();
+    }
+  }
+
+  draw(ctx) {
+    ctx.drawImage(this.spriteSheet, this.cat_sprite_buffer_width, 0, this.cat_width, this.cat_height, this.cat_loc_x, this.cat_loc_y, this.cat_width, this.cat_height);
+  }
+
+  update_state(state) {
+    this.is_jump = state;
+  }
+}
+
+module.exports = Cat;
 
 
 /***/ })
