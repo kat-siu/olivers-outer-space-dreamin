@@ -231,6 +231,7 @@ $(window).ready(function(){
 
 const Background = __webpack_require__(0);
 const Cat = __webpack_require__(1);
+const Score = __webpack_require__(4)
 
 class Game {
   constructor(canvas) {
@@ -238,6 +239,7 @@ class Game {
     this.canvas = canvas;
     this.background = new Background();
     this.cat = new Cat();
+    this.score = new Score();
 
     this.loop = this.loop.bind(this);
   }
@@ -245,11 +247,13 @@ class Game {
   draw() {
     this.background.draw(this.ctx);
     this.cat.draw(this.ctx);
+    this.score.draw(this.ctx);
   }
 
   update() {
     this.background.update();
     this.cat.update();
+    // this.score.update(this.score);
   }
 
   loop() {
@@ -260,6 +264,32 @@ class Game {
 }
 
 module.exports = Game;
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports) {
+
+class Score {
+  constructor() {
+    this.score_location_x = 20;
+    this.score_location_y = 20;
+
+    this.score = 0;
+  }
+
+  update(score) {
+    this.score = score;
+  }
+
+  draw(ctx) {
+    ctx.font = "20px Courier";
+    ctx.fillStyle = 'white';
+    ctx.fillText(this.score, this.score_location_x, this.score_location_y);
+  }
+}
+
+module.exports = Score;
 
 
 /***/ })
