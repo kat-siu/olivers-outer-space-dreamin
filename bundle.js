@@ -60,159 +60,11 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports, __webpack_require__) {
-
-const Game = __webpack_require__(1);
-const Background = __webpack_require__(2);
-const Cat = __webpack_require__(3);
-
-$(window).ready(function(){
-  const canvas = document.getElementById("canvas");
-  const game = new Game(canvas);
-
-  requestAnimationFrame(game.loop());
-
-});
-// document.addEventListener("DOMContentLoaded", () => {
-//   debugger
-//   const canvas = document.getElementById("canvas");
-//   const ctx = canvas.getContext("2d");
-//
-//   // let background = new Background(ctx);
-//   // background.draw(ctx);
-//
-//
-//
-//   // let background = new Image();
-//   // background.src = './assets/images/ground.png';
-//   // background.onload = function() {
-//   //   ctx.drawImage(foreground, foreground_loc_x, foreground_loc_y, 600, 360);
-//   //   ctx.drawImage(foreground, foreground_loc_x + 600, foreground_loc_y, 600, 360);
-//   // };
-//   //
-//   // let foreground = new Image();
-//   // foreground.src = './assets/images/planet.jpg';
-//   // foreground.onload = function() {
-//   //   ctx.drawImage(foreground, 0, 0);
-//   // };
-//
-//
-//
-//
-//   //moving circle
-//   // ctx.beginPath();
-//   // ctx.rect(160, 10, 100, 40);
-//   // ctx.strokeStyle = "rgba(0, 0, 255, 0.5)";
-//   // ctx.stroke();
-//   // ctx.closePath();
-//   // var x = canvas.width/2;
-//   // var y = canvas.height-30;
-//   // var dx = 0;
-//   // var dy = 1;
-//   // var ballRadius = 10;
-//   //
-//   // function drawBall() {
-//   //   ctx.beginPath();
-//   //   ctx.arc(x, y, ballRadius, 0, Math.PI*2);
-//   //   ctx.fillStyle = "#0095DD";
-//   //   ctx.fill();
-//   //   ctx.closePath();
-//   // }
-//   //
-//   // function draw() {
-//   //   ctx.clearRect(0, 0, canvas.width, canvas.height);
-//   //   drawBall();
-//   //
-//   //   if (x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
-//   //     dx = -dx;
-//   //   }
-//   //   if (y + dy > canvas.height-ballRadius || y + dy < ballRadius) {
-//   //     dy = -dy;
-//   //   }
-//   //
-//   //   x += dx;
-//   //   y += dy;
-//   // }
-//   //
-//   // setInterval(draw, 10);
-//   //
-//   // const backgroundCanvas = document.getElementById('background-canvas');
-//   // const backgroundCanvasCtx = backgroundCanvas.getContext('2d');
-//   //
-//   // const foregroundCanvas = document.getElementById('foreground-canvas');
-//   // const foregroundCanvasCtx = foregroundCanvas.getContext('2d');
-// });
-
-
-/***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-const Background = __webpack_require__(2);
-const Cat = __webpack_require__(3);
-
-class Game {
-  constructor(canvas) {
-    this.ctx = canvas.getContext('2d');
-    this.canvas = canvas;
-    this.background = new Background();
-
-    this.loop = this.loop.bind(this);
-  }
-
-  draw() {
-    this.background.draw(this.ctx);
-  }
-
-  update() {
-    this.background.update();
-  }
-
-  loop() {
-    this.update();
-    this.draw();
-    requestAnimationFrame(this.loop);
-  }
-
-
-  //
-  // handleKeyPress(e) {
-  //
-  // }
-  //
-  // controller = {
-  //   left: false,
-  //   right: false,
-  //   up: false,
-  //   keyListener: function(event) {
-  //     const key_state = (event.type == "keydown") ? true : false;
-  //     switch(event.keyCode) {
-  //       case 37: //left
-  //         controller.left = key_state;
-  //       break;
-  //       case 38: //up
-  //         controller.up = key_state;
-  //       break;
-  //       case 39: //right key
-  //         controller.right = key_state;
-  //     }
-  //   }
-  // }
-  //
-  // window.addEventListener("keydown", controller.keyListener);
-  // window.addEventListener("Keyup", controller.keyListener);
-}
-
-module.exports = Game;
-
-
-/***/ }),
-/* 2 */
 /***/ (function(module, exports) {
 
 class Background {
@@ -257,7 +109,7 @@ module.exports = Background;
 
 
 /***/ }),
-/* 3 */
+/* 1 */
 /***/ (function(module, exports) {
 
 class Cat {
@@ -269,10 +121,12 @@ class Cat {
     this.cat_height = 34;
 
     // Location of Cat on screen
-    this.cat_loc_x = 120;
-    this.cat_loc_y = 270;
+    this.cat_loc_x = 100;
+    this.cat_loc_y = 120;
 
     this.cat_sprite = 0;
+
+    this.cat_state = "fall";
   }
 
   run() {
@@ -285,13 +139,20 @@ class Cat {
     this.cat_sprite_buffer_width = 40 * parseInt(this.cat_sprite/10);
   }
 
-  jump() {
-
-  }
-
   update() {
-    if (this.cat_loc_y == 270) {
-        this.run();
+    this.run();
+    if (this.cat_state == "fall") {
+      if (this.cat_loc_y + this.cat_height > 300) {
+        console.log('game over');
+      } else {
+        this.cat_loc_y += 3;
+      }
+    } else if (this.cat_state == "jump") {
+      if (this.cat_loc_y < 0) {
+        console.log('game over');
+      } else {
+        this.cat_loc_y -= 3;
+      }
     }
   }
 
@@ -299,12 +160,137 @@ class Cat {
     ctx.drawImage(this.spriteSheet, this.cat_sprite_buffer_width, 0, this.cat_width, this.cat_height, this.cat_loc_x, this.cat_loc_y, this.cat_width, this.cat_height);
   }
 
-  update_state(state) {
-    this.is_jump = state;
-  }
+
 }
 
 module.exports = Cat;
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const Game = __webpack_require__(3);
+const Background = __webpack_require__(0);
+const Cat = __webpack_require__(1);
+
+$(window).ready(function(){
+  const canvas = document.getElementById("canvas");
+  const game = new Game(canvas);
+
+  window.addEventListener("keydown", function(e) {
+    if (e.keyCode == 32) {
+      game.cat.cat_state = "jump";
+    }
+  });
+
+  window.addEventListener("keyup", function(e) {
+    if (e.keyCode == 32) {
+      game.cat.cat_state = "fall";
+    }
+  });
+
+  requestAnimationFrame(game.loop());
+
+});
+// document.addEventListener("DOMContentLoaded", () => {
+//   debugger
+//   const canvas = document.getElementById("canvas");
+//   const ctx = canvas.getContext("2d");
+//
+//   // let background = new Background(ctx);
+//   // background.draw(ctx);
+//
+//
+//
+//   // let background = new Image();
+//   // background.src = './assets/images/ground.png';
+//   // background.onload = function() {
+//   //   ctx.drawImage(foreground, foreground_loc_x, foreground_loc_y, 600, 360);
+//   //   ctx.drawImage(foreground, foreground_loc_x + 600, foreground_loc_y, 600, 360);
+//   // };
+//   //
+//   // let foreground = new Image();
+//   // foreground.src = './assets/images/planet.jpg';
+//   // foreground.onload = function() {
+//   //   ctx.drawImage(foreground, 0, 0);
+//   // };
+
+//   //
+//   // const backgroundCanvas = document.getElementById('background-canvas');
+//   // const backgroundCanvasCtx = backgroundCanvas.getContext('2d');
+//   //
+//   // const foregroundCanvas = document.getElementById('foreground-canvas');
+//   // const foregroundCanvasCtx = foregroundCanvas.getContext('2d');
+// });
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+const Background = __webpack_require__(0);
+const Cat = __webpack_require__(1);
+
+class Game {
+  constructor(canvas) {
+    this.ctx = canvas.getContext('2d');
+    this.canvas = canvas;
+    this.background = new Background();
+    this.cat = new Cat();
+
+    this.loop = this.loop.bind(this);
+  }
+
+  draw() {
+    this.background.draw(this.ctx);
+    this.cat.draw(this.ctx);
+  }
+
+  update() {
+    this.background.update();
+    this.cat.update();
+  }
+
+  loop() {
+    this.update();
+    this.draw();
+    requestAnimationFrame(this.loop);
+  }
+
+  moveCat() {
+    this.cat.cat_loc_y -= 6; 
+  }
+
+  //
+  // handleKeyPress(e) {
+  //
+  // }
+  //
+  // controller = {
+  //   left: false,
+  //   right: false,
+  //   up: false,
+  //   keyListener: function(event) {
+  //     const key_state = (event.type == "keydown") ? true : false;
+  //     switch(event.keyCode) {
+  //       case 37: //left
+  //         controller.left = key_state;
+  //       break;
+  //       case 38: //up
+  //         controller.up = key_state;
+  //       break;
+  //       case 39: //right key
+  //         controller.right = key_state;
+  //     }
+  //   }
+  // }
+  //
+  // window.addEventListener("keydown", controller.keyListener);
+  // window.addEventListener("Keyup", controller.keyListener);
+}
+
+module.exports = Game;
 
 
 /***/ })
