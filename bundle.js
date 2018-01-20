@@ -141,15 +141,17 @@ class Cat {
 
   update() {
     this.run();
-    if (this.cat_state == "fall") {
-      if (this.cat_loc_y + this.catHeight > 300) {
-        console.log('game over');
+    if (this.cat_state == "fall") { // oliver doesn't fall off canvas
+      if (this.cat_loc_y + this.catHeight > 315) {
+        // console.log('game over');
+        // game over state
       } else {
-        this.cat_loc_y += 3;
+        this.cat_loc_y += 3.5;
       }
-    } else if (this.cat_state == "jump") {
+    } else if (this.cat_state == "jump") { // oliver doesn't fly off canvas
       if (this.cat_loc_y < 0) {
-        console.log('game over');
+        // console.log('game over');
+        // game over state
       } else {
         this.cat_loc_y -= 3;
       }
@@ -214,7 +216,11 @@ class Game {
     this.food = [];
     this.obstacles = [];
     this.score = new Score(1);
+    // this.togglePlay = this.togglePlay.bind(this);
     this.setSounds();
+    this.paused = false;
+    // this.muteSounds();
+    // this.muteSounds = false;
 
     this.loop = this.loop.bind(this);
   }
@@ -272,6 +278,11 @@ class Game {
 
     for (let i = 0; i < this.obstacles.length; i++) {
       this.obstacles[i].update();
+      if (this.checkObstacleHit(this.obstacles[i]) == true) {
+        // game over state
+      } else if (this.obstacles[i].asteroidInBound() == false) {
+        this.obstacles.splice(i, 1);
+      }
     }
   }
 
@@ -282,7 +293,7 @@ class Game {
 
     for (let i = 0; i < this.food.length; i++) {
       this.food[i].update();
-      if (this.checkHit(this.food[i]) == true) {
+      if (this.checkFoodHit(this.food[i]) == true) {
         this.food.splice(i, 1);
         this.score.addPoints();
       } else if (this.food[i].foodInBound() == false) {
@@ -304,56 +315,42 @@ class Game {
     requestAnimationFrame(this.loop);
   }
 
-  checkHit(food) {
+  checkFoodHit(food) {
     if (this.cat.cat_loc_x + this.cat.catWidth > food.food_loc_x &&
-        this.cat.cat_loc_y < food.food_loc_y &&
+        this.cat.cat_loc_y < food.food_loc_y + food.foodHeight &&
         this.cat.cat_loc_y + this.cat.catHeight > food.food_loc_y) {
           return true;
       }
-      // else if (this.cat.cat_loc_x + this.cat.catWidth > food.food_loc_x &&
-      //   this.cat.cat_loc_y + this.cat.catHeight > food.food_loc_y &&
-      //   this.cat.cat_loc_y + this.cat.catHeight < food.food_loc_y +   food.foodHeight) {
-      //     return true;
-      // }
-
-    // if (this.cat.cat_loc_x + this.cat.catWidth > food.food_loc_x
-    //   && this.cat.cat_loc_y < food.food_loc_y
-    //    ) {
-    //   console.log("EAT ME");
-    // }
 
   }
-  //
-  // if (rect1.x < rect2.x + rect2.width &&
-  //   rect1.x + rect1.width > rect2.x &&
-  //   rect1.y < rect2.y + rect2.height &&
-  //   rect1.height + rect1.y > rect2.y) {
-  //     // collision detected!
-  //   }
+  // if (rect1.x < rect2.x + rect2.w &&
+  //         rect1.x + rect1.w > rect2.x &&
+  //         rect1.y < rect2.y + rect2.h &&
+  //         rect1.h + rect1.y > rect2.y)
 
-  // sound(src) {
-  //   this.sound = canvas.createElement("audio");
-  //   this.sound.src = src;
-  //   this.sound.setAttribute("preload", "auto");
-  //   this.sound.setAttribute("controls", "none");
-  //   this.sound.style.display = "none";
-  //   canvas.appendChild(this.sound);
-  //   this.play = function() {
-  //     this.sound.play();
-  //   };
-  //   this.stop = function() {
-  //     this.sound.pause();
-  //   };
-  // }
+  checkObstacleHit(obstacle) {
+    if (this.cat.cat_loc_x + this.cat.catWidth > obstacle.asteroid_loc_x &&
+        this.cat.cat_loc_y < obstacle.asteroid_loc_y + obstacle.asteroidHeight &&
+        this.cat.cat_loc_y + this.cat.catHeight > obstacle.asteroid_loc_y) {
+          return true;
+    }
+  }
 
   setSounds() {
     this.backgroundMusic = new Audio('./assets/sounds/background.mp3');
     this.backgroundMusic.loop = true;
   }
 
-  muteSounds() {
-    
-  }
+  // muteSounds() {
+  //   document.getElementById('mute').addEventListener('click', function(e) {
+  //     // alert('music toggle pressed');
+  //     var musicToggle = do
+  //   });
+  // }
+
+
+
+
 }
 module.exports = Game;
 
@@ -446,10 +443,8 @@ class Obstacles {
     this.asteroid.src = './assets/images/obstacle.png';
 
     this.asteroid_loc_x = 600;
-    this.asteroid_loc_y = Math.floor(Math.random() * (250-10) + 10);
-
-    console.log(this.asteroid_loc_x);
-    console.log(this.asteroid_loc_y);
+    this.asteroid_loc_y = Math.floor(Math.random() * (270-10) + 10);
+    this.asteroidHeight = 35;
   }
 
   update() {
