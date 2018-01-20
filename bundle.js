@@ -212,7 +212,7 @@ class Game {
     this.background = new Background();
     this.cat = new Cat();
     this.food = [];
-    this.obstacles = new Obstacles();
+    this.obstacles = [];
     this.score = new Score(1);
 
     this.loop = this.loop.bind(this);
@@ -224,12 +224,57 @@ class Game {
     for (let i = 0; i < this.food.length; i++) {
       this.food[i].draw(this.ctx);
     }
+
+    for (let i = 0; i < this.obstacles.length; i++) {
+      this.obstacles[i].draw(this.ctx);
+    }
+
     this.cat.draw(this.ctx);
     // this.obstacles.draw(this.ctx);
     this.score.draw(this.ctx);
   }
 
-  update() {
+  updateObstacles() {
+    if (this.score.score < 20) {
+      if (Math.floor(Math.random() * 100) == 1) {
+        this.obstacles.push(new Obstacles());
+      }
+    } else if (20 < this.score.score < 40) {
+      if (Math.floor(Math.random() * 90) == 1) {
+        this.obstacles.push(new Obstacles());
+      }
+    } else if (40 < this.score.score < 60) {
+      if (Math.floor(Math.random() * 80) == 1) {
+        this.obstacles.push(new Obstacles());
+      }
+    } else if (60 < this.score.score < 80) {
+      if (Math.floor(Math.random() * 70) == 1) {
+        this.obstacles.push(new Obstacles());
+      }
+    } else if (80 < this.score.score < 100) {
+      if (Math.floor(Math.random() * 60) == 1) {
+        this.obstacles.push(new Obstacles());
+      }
+    } else if (100 < this.score.score < 120) {
+      if (Math.floor(Math.random() * 50) == 1) {
+        this.obstacles.push(new Obstacles());
+      }
+    } else if (120 < this.score.score < 140) {
+      if (Math.floor(Math.random() * 40) == 1) {
+        this.obstacles.push(new Obstacles());
+      }
+    } else if (140 < this.score.score < 160) {
+      if (Math.floor(Math.random() * 30) == 1) {
+        this.obstacles.push(new Obstacles());
+      }
+    }
+
+    for (let i = 0; i < this.obstacles.length; i++) {
+      this.obstacles[i].update();
+    }
+  }
+
+  updateFood() {
     if (Math.floor(Math.random() * 100) == 1) {
       this.food.push(new Food());
     }
@@ -243,10 +288,22 @@ class Game {
         this.food.splice(i, 1);
       }
     }
+  }
+
+  update() {
+    // if (Math.floor(Math.random() * 40) == 1) {
+    //   this.obstacles.push(new Obstacles());
+    // }
+
+
+
+
+
 
     this.background.update();
     this.cat.update();
-    this.obstacles.update();
+    this.updateObstacles();
+    this.updateFood();
   }
 
   loop() {
@@ -305,7 +362,7 @@ class Score {
   }
 
   addPoints() {
-    this.score += 1;
+    this.score += 5;
   }
 }
 
@@ -314,10 +371,7 @@ module.exports = Score;
 
 /***/ }),
 /* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-const Cat = __webpack_require__(1);
-const Score = __webpack_require__(4);
+/***/ (function(module, exports) {
 
 class Food {
   constructor() {
@@ -362,47 +416,9 @@ class Food {
       return true;
     }
   }
-
-  //   function getRandomXLocation(min, max) {
-  //     return Math.floor(Math.random() * (max - min) + min);
-  //   }
-  //
-  //   function getRandomYLocation(min, max) {
-  //     return Math.floor(Math.random() * (max - min) + min);
-  //   }
-  //
-  //   this.sushi_loc_x = getRandomXLocation(120, 600);
-  //   this.sushi_loc_y = getRandomYLocation(10, 270);
-  //
-  //   this.drumstick_loc_x = getRandomXLocation(120, 600);
-  //   this.drumstick_loc_y = getRandomYLocation(10, 270);
-  // }
-  //
-  //
-  // update() {
-  //   this.sushi_loc_x -= 2;
-  //   this.drumstick_loc_x -= 2;
-  //
-  //   if (this.sushi_loc_x == -600) {
-  //     this.sushi_loc_x = 0;
-  //   }
-  //
-  //   if (this.drumstick_loc_x == -600) {
-  //     this.drumstick_loc_x = 0;
-  //   }
-  // }
-  //
-  // draw(ctx) {
-  //   ctx.drawImage(this.sushi, this.sushi_loc_x, this.sushi_loc_y);
-  //   ctx.drawImage(this.sushi, this.sushi_loc_x + 580, this.sushi_loc_y);
-  //   ctx.drawImage(this.drumstick, this.drumstick_loc_x, this.drumstick_loc_y);
-  //   ctx.drawImage(this.drumstick, this.drumstick_loc_x + 580, this.drumstick_loc_y);
-  // }
 }
 
 module.exports = Food;
-
-// 600 (width) * 360 (height)
 
 
 /***/ }),
@@ -414,29 +430,27 @@ class Obstacles {
     this.asteroid = new Image();
     this.asteroid.src = './assets/images/obstacle.png';
 
-    function getRandomXLocation(min, max) {
-      return Math.floor(Math.random() * (max - min) + min);
-    }
+    this.asteroid_loc_x = 600;
+    this.asteroid_loc_y = Math.floor(Math.random() * (250-10) + 10);
 
-    function getRandomYLocation(min, max) {
-      return Math.floor(Math.random() * (max - min) + min);
-    }
-
-    this.asteroid_loc_x = getRandomXLocation(120, 600);
-    this.asteroid_loc_y = getRandomYLocation(10, 270);
+    console.log(this.asteroid_loc_x);
+    console.log(this.asteroid_loc_y);
   }
 
   update() {
-    this.asteroid_loc_y -= 2;
-
-    if (this.asteroid_loc_x == -600) {
-      this.asteroid_loc_x = 0;
-    }
+    this.asteroid_loc_x -= 2;
   }
 
   draw(ctx) {
     ctx.drawImage(this.asteroid, this.asteroid_loc_x, this.asteroid_loc_y);
-    ctx.drawImage(this.asteroid, this.asteroid_loc_x + 580, this.asteroid_loc_y);
+  }
+
+  asteroidInBound() {
+    if (this.asteroid_loc_x < -50) {
+      return false;
+    } else {
+      return true;
+    }
   }
 }
 
