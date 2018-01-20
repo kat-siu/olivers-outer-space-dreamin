@@ -117,8 +117,8 @@ class Cat {
     this.spriteSheet = new Image();
     this.spriteSheet.src = './assets/images/astro_oliver.png'; // 50x45 sprites
 
-    this.cat_width = 50;
-    this.cat_height = 45;
+    this.catWidth = 50;
+    this.catHeight = 45;
 
     // Location of Cat on screen
     this.cat_loc_x = 100;
@@ -142,7 +142,7 @@ class Cat {
   update() {
     this.run();
     if (this.cat_state == "fall") {
-      if (this.cat_loc_y + this.cat_height > 300) {
+      if (this.cat_loc_y + this.catHeight > 300) {
         console.log('game over');
       } else {
         this.cat_loc_y += 3;
@@ -157,7 +157,7 @@ class Cat {
   }
 
   draw(ctx) {
-    ctx.drawImage(this.spriteSheet, this.cat_sprite_buffer_width, 0, this.cat_width, this.cat_height, this.cat_loc_x, this.cat_loc_y, this.cat_width, this.cat_height);
+    ctx.drawImage(this.spriteSheet, this.cat_sprite_buffer_width, 0, this.catWidth, this.catHeight, this.cat_loc_x, this.cat_loc_y, this.catWidth, this.catHeight);
   }
 
 
@@ -203,6 +203,7 @@ const Background = __webpack_require__(0);
 const Cat = __webpack_require__(1);
 const Food = __webpack_require__(5);
 const Score = __webpack_require__(4);
+const Obstacles = __webpack_require__(6);
 
 class Game {
   constructor(canvas) {
@@ -210,24 +211,42 @@ class Game {
     this.canvas = canvas;
     this.background = new Background();
     this.cat = new Cat();
-    this.food = new Food();
-    this.score = new Score();
+    this.food = [];
+    this.obstacles = new Obstacles();
+    this.score = new Score(1);
 
     this.loop = this.loop.bind(this);
   }
 
   draw() {
     this.background.draw(this.ctx);
+
+    for (let i = 0; i < this.food.length; i++) {
+      this.food[i].draw(this.ctx);
+    }
     this.cat.draw(this.ctx);
-    this.food.draw(this.ctx);
+    // this.obstacles.draw(this.ctx);
     this.score.draw(this.ctx);
   }
 
   update() {
+    if (Math.floor(Math.random() * 100) == 1) {
+      this.food.push(new Food());
+    }
+
+    for (let i = 0; i < this.food.length; i++) {
+      this.food[i].update();
+      if (this.checkHit(this.food[i]) == true) {
+        this.food.splice(i, 1);
+        this.score.addPoints();
+      } else if (this.food[i].foodInBound() == false) {
+        this.food.splice(i, 1);
+      }
+    }
+
     this.background.update();
     this.cat.update();
-    this.food.update();
-    this.score.update(0);
+    this.obstacles.update();
   }
 
   loop() {
@@ -235,8 +254,35 @@ class Game {
     this.draw();
     requestAnimationFrame(this.loop);
   }
-}
 
+  checkHit(food) {
+    if (this.cat.cat_loc_x + this.cat.catWidth > food.food_loc_x &&
+        this.cat.cat_loc_y < food.food_loc_y &&
+        this.cat.cat_loc_y + this.cat.catHeight > food.food_loc_y) {
+          return true;
+      }
+      // else if (this.cat.cat_loc_x + this.cat.catWidth > food.food_loc_x &&
+      //   this.cat.cat_loc_y + this.cat.catHeight > food.food_loc_y &&
+      //   this.cat.cat_loc_y + this.cat.catHeight < food.food_loc_y +   food.foodHeight) {
+      //     return true;
+      // }
+
+    // if (this.cat.cat_loc_x + this.cat.catWidth > food.food_loc_x
+    //   && this.cat.cat_loc_y < food.food_loc_y
+    //    ) {
+    //   console.log("EAT ME");
+    // }
+
+  }
+  //
+  // if (rect1.x < rect2.x + rect2.width &&
+  //   rect1.x + rect1.width > rect2.x &&
+  //   rect1.y < rect2.y + rect2.height &&
+  //   rect1.height + rect1.y > rect2.y) {
+  //     // collision detected!
+  //   }
+
+}
 module.exports = Game;
 
 
@@ -245,21 +291,21 @@ module.exports = Game;
 /***/ (function(module, exports) {
 
 class Score {
-  constructor() {
+  constructor(multiplier) {
     this.score_location_x = 20;
     this.score_location_y = 20;
 
     this.score = 0;
   }
 
-  update(score) {
-    this.score = score;
-  }
-
   draw(ctx) {
     ctx.font = "20px Courier";
     ctx.fillStyle = 'white';
     ctx.fillText(this.score, this.score_location_x, this.score_location_y);
+  }
+
+  addPoints() {
+    this.score += 1;
   }
 }
 
@@ -268,15 +314,105 @@ module.exports = Score;
 
 /***/ }),
 /* 5 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
+
+const Cat = __webpack_require__(1);
+const Score = __webpack_require__(4);
 
 class Food {
   constructor() {
     this.sushi = new Image();
     this.drumstick = new Image();
 
+    this.foodHeight = 0;
+
     this.sushi.src = './assets/images/sushi.png';
     this.drumstick.src = './assets/images/drumstick.png';
+
+    this.food_loc_x = 600;
+    this.food_loc_y = Math.floor(Math.random() * (250-10) + 10);
+
+    this.foodType = "";
+
+    if ((Math.floor(Math.random() * 2) % 2) == 0) {
+      this.foodType = "sushi";
+      this.foodHeight = 35;
+    } else {
+      this.foodType = "drumstick";
+      this.foodHeight = 50;
+    }
+  }
+
+  update() {
+    this.food_loc_x -= 2;
+  }
+
+  draw(ctx) {
+    if (this.foodType == "sushi") {
+      ctx.drawImage(this.sushi, this.food_loc_x, this.food_loc_y);
+    } else if (this.foodType == "drumstick") {
+      ctx.drawImage(this.drumstick, this.food_loc_x, this.food_loc_y);
+    }
+  }
+
+  foodInBound() {
+    if (this.food_loc_x < -50) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  //   function getRandomXLocation(min, max) {
+  //     return Math.floor(Math.random() * (max - min) + min);
+  //   }
+  //
+  //   function getRandomYLocation(min, max) {
+  //     return Math.floor(Math.random() * (max - min) + min);
+  //   }
+  //
+  //   this.sushi_loc_x = getRandomXLocation(120, 600);
+  //   this.sushi_loc_y = getRandomYLocation(10, 270);
+  //
+  //   this.drumstick_loc_x = getRandomXLocation(120, 600);
+  //   this.drumstick_loc_y = getRandomYLocation(10, 270);
+  // }
+  //
+  //
+  // update() {
+  //   this.sushi_loc_x -= 2;
+  //   this.drumstick_loc_x -= 2;
+  //
+  //   if (this.sushi_loc_x == -600) {
+  //     this.sushi_loc_x = 0;
+  //   }
+  //
+  //   if (this.drumstick_loc_x == -600) {
+  //     this.drumstick_loc_x = 0;
+  //   }
+  // }
+  //
+  // draw(ctx) {
+  //   ctx.drawImage(this.sushi, this.sushi_loc_x, this.sushi_loc_y);
+  //   ctx.drawImage(this.sushi, this.sushi_loc_x + 580, this.sushi_loc_y);
+  //   ctx.drawImage(this.drumstick, this.drumstick_loc_x, this.drumstick_loc_y);
+  //   ctx.drawImage(this.drumstick, this.drumstick_loc_x + 580, this.drumstick_loc_y);
+  // }
+}
+
+module.exports = Food;
+
+// 600 (width) * 360 (height)
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports) {
+
+class Obstacles {
+  constructor() {
+    this.asteroid = new Image();
+    this.asteroid.src = './assets/images/obstacle.png';
 
     function getRandomXLocation(min, max) {
       return Math.floor(Math.random() * (max - min) + min);
@@ -286,39 +422,25 @@ class Food {
       return Math.floor(Math.random() * (max - min) + min);
     }
 
-    this.sushi_loc_x = getRandomXLocation(120, 600);
-    this.sushi_loc_y = getRandomYLocation(10, 270);
-
-    this.drumstick_loc_x = getRandomXLocation(120, 600);
-    this.drumstick_loc_y = getRandomYLocation(10, 270);
+    this.asteroid_loc_x = getRandomXLocation(120, 600);
+    this.asteroid_loc_y = getRandomYLocation(10, 270);
   }
 
-
   update() {
-    this.sushi_loc_x -= 2;
-    this.drumstick_loc_x -= 2;
+    this.asteroid_loc_y -= 2;
 
-    if (this.sushi_loc_x == -600) {
-      this.sushi_loc_x = 0;
-    }
-
-    if (this.drumstick_loc_x == -600) {
-      this.drumstick_loc_x = 0;
+    if (this.asteroid_loc_x == -600) {
+      this.asteroid_loc_x = 0;
     }
   }
 
   draw(ctx) {
-    ctx.drawImage(this.sushi, this.sushi_loc_x, this.sushi_loc_y);
-    ctx.drawImage(this.sushi, this.sushi_loc_x + 580, this.sushi_loc_y);
-
-    ctx.drawImage(this.drumstick, this.drumstick_loc_x, this.drumstick_loc_y);
-    ctx.drawImage(this.drumstick, this.drumstick_loc_x + 580, this.drumstick_loc_y);
+    ctx.drawImage(this.asteroid, this.asteroid_loc_x, this.asteroid_loc_y);
+    ctx.drawImage(this.asteroid, this.asteroid_loc_x + 580, this.asteroid_loc_y);
   }
 }
 
-module.exports = Food;
-
-// 600 (width) * 360 (height)
+module.exports = Obstacles;
 
 
 /***/ })
