@@ -214,6 +214,7 @@ class Game {
     this.food = [];
     this.obstacles = [];
     this.score = new Score(1);
+    this.setSounds();
 
     this.loop = this.loop.bind(this);
   }
@@ -230,8 +231,8 @@ class Game {
     }
 
     this.cat.draw(this.ctx);
-    // this.obstacles.draw(this.ctx);
     this.score.draw(this.ctx);
+    this.backgroundMusic.play();
   }
 
   updateObstacles() {
@@ -291,15 +292,6 @@ class Game {
   }
 
   update() {
-    // if (Math.floor(Math.random() * 40) == 1) {
-    //   this.obstacles.push(new Obstacles());
-    // }
-
-
-
-
-
-
     this.background.update();
     this.cat.update();
     this.updateObstacles();
@@ -339,6 +331,29 @@ class Game {
   //     // collision detected!
   //   }
 
+  // sound(src) {
+  //   this.sound = canvas.createElement("audio");
+  //   this.sound.src = src;
+  //   this.sound.setAttribute("preload", "auto");
+  //   this.sound.setAttribute("controls", "none");
+  //   this.sound.style.display = "none";
+  //   canvas.appendChild(this.sound);
+  //   this.play = function() {
+  //     this.sound.play();
+  //   };
+  //   this.stop = function() {
+  //     this.sound.pause();
+  //   };
+  // }
+
+  setSounds() {
+    this.backgroundMusic = new Audio('./assets/sounds/background.mp3');
+    this.backgroundMusic.loop = true;
+  }
+
+  muteSounds() {
+    
+  }
 }
 module.exports = Game;
 
@@ -356,9 +371,9 @@ class Score {
   }
 
   draw(ctx) {
-    ctx.font = "20px Courier";
+    ctx.font = "25px Visitor1";
     ctx.fillStyle = 'white';
-    ctx.fillText(this.score, this.score_location_x, this.score_location_y);
+    ctx.fillText(`Score: ${this.score}`, this.score_location_x, this.score_location_y);
   }
 
   addPoints() {
