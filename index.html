@@ -9,18 +9,18 @@
   <script type="text/javascript" src="./bundle.js"></script>
 </head>
 <body>
-  <div class="title">
-    <h1>Oliver's Outer Space Dream</h1>
+  <div id="header">
+    <div class="title">
+      <h1>Oliver's Outer Space Dream</h1>
+    </div>
   </div>
-  <div class="wrapper">
+  <div id="game-area">
+    <img src="./assets/images/game_frame.png" class="game-frame">
     <canvas id="canvas" width="600px" height="360px">
       <p>Your browser does not support the required functionality to play this game.</p>
       <p>Please update to a modern browser such as <a href="www.google.com/chrome/‎">Google Chrome</a> to play.</p>
     </canvas>
-    <!-- <audio id="background-music" preload="auto" src="./assets/sounds/background.mp3">
-    </audio> -->
+    <button id="sound-btn"><img src="https://s-media-cache-ak0.pinimg.com/originals/56/90/44/569044e6883e72221c6b81164d111c91.png" class="music-note"></button>
   </div>
-  <button id="sound-btn">Mute</button>
-  <!-- <div id="game-over-screen">GAME OVER YOU WOKE UP OLIVER FROM HIS DREAM :(</div> -->
 </body>
 </html>
