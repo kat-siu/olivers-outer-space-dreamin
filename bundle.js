@@ -184,8 +184,9 @@ $(window).ready(function(){
 
   window.addEventListener("keypress", function(e) {
     if (e.keyCode == 32) {
+      e.preventDefault();
       game.cat.cat_state = "jump";
-      if (game.cat.cat_loc_y == 270.5 || game.cat.cat_loc_y == 272 || game.cat.cat_loc_y == 272.5) {
+      if (game.cat.cat_loc_y >= 269) {
         jumpSound.play();
       }
     }
@@ -200,6 +201,12 @@ $(window).ready(function(){
   window.addEventListener("keydown", function(e) {
     if (e.keyCode == 80) {
       game.togglePauseGame();
+    }
+  });
+
+  window.addEventListener("keydown", function(e) {
+    if (e.keyCode == 82) {
+      game.restart();
     }
   });
 
@@ -229,6 +236,7 @@ class Game {
     this.food = [];
     this.obstacles = [];
     this.score = new Score(1);
+    this.muteSounds();
 
     this.gameState = "GAME_SCREEN";
     // this.togglePlay = this.togglePlay.bind(this);
@@ -240,6 +248,7 @@ class Game {
     this.backgroundMusic = new Audio('./assets/sounds/background.mp3');
     this.backgroundMusic.loop = true;
     this.catMeow = new Audio('./assets/sounds/cat_meow.mp3');
+    this.scorePoint = new Audio('./assets/sounds/Collect_Point_00.mp3');
 
   }
 
@@ -315,6 +324,8 @@ class Game {
       this.food[i].update();
       if (this.checkFoodHit(this.food[i]) == true) {
         this.food.splice(i, 1);
+        this.scorePoint.pause();
+        this.scorePoint.play();
         this.score.addPoints();
       } else if (this.food[i].foodInBound() == false) {
         this.food.splice(i, 1);
@@ -360,12 +371,12 @@ class Game {
     } // FIGURE OUT #S TO ADD BUFFER!!
   }
 
-  // muteSounds() {
-  //   document.getElementById('mute').addEventListener('click', function(e) {
-  //     // alert('music toggle pressed');
-  //     var musicToggle = do
-  //   });
-  // }
+  muteSounds() {
+    document.getElementById('sound-btn').addEventListener('click', function(e) {
+      // alert('music toggle pressed');
+      this.backgroundMusic.pause();
+    });
+  }
 
   togglePauseGame() {
     if (this.gameState == "PAUSED") {
@@ -378,15 +389,21 @@ class Game {
     }
   }
 
-  // togglePauseSounds() {
-  //   if (this.soundState = "")
-  // }
-
   gameOver() {
     gameOverScreen(this.ctx);
     this.gameState = "GAME_OVER";
     this.backgroundMusic.pause();
     this.catMeow.play();
+  }
+
+  restart() {
+    if (this.gameState == "GAME_OVER") {
+      this.cat = new Cat();
+      this.food = [];
+      this.obstacles = [];
+      this.score = new Score(1);
+      this.gameState = "GAME_SCREEN";
+    }
   }
 
 }
