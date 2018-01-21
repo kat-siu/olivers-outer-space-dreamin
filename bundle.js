@@ -179,10 +179,15 @@ const Cat = __webpack_require__(1);
 $(window).ready(function(){
   const canvas = document.getElementById("canvas");
   const game = new Game(canvas);
+  const jumpSound = new Audio('./assets/sounds/jump.mp3');
 
-  window.addEventListener("keydown", function(e) {
+
+  window.addEventListener("keypress", function(e) {
     if (e.keyCode == 32) {
       game.cat.cat_state = "jump";
+      if (game.cat.cat_loc_y == 270.5 || game.cat.cat_loc_y == 272 || game.cat.cat_loc_y == 272.5) {
+        jumpSound.play();
+      }
     }
   });
 
@@ -197,10 +202,6 @@ $(window).ready(function(){
       game.togglePauseGame();
     }
   });
-
-  // window.addEventListener("click", function(e) {
-  //   if ()
-  // }
 
   requestAnimationFrame(game.loop());
 
@@ -243,7 +244,6 @@ class Game {
   }
 
   draw() {
-    console.log(this.gameState);
     if (this.gameState == "GAME_SCREEN") {
       this.background.draw(this.ctx);
 
@@ -266,31 +266,31 @@ class Game {
       if (Math.floor(Math.random() * 100) == 1) {
         this.obstacles.push(new Obstacles());
       }
-    } else if (20 < this.score.score < 40) {
+    } else if (this.score.score > 20 && this.score.score < 40) {
       if (Math.floor(Math.random() * 90) == 1) {
         this.obstacles.push(new Obstacles());
       }
-    } else if (40 < this.score.score < 60) {
+    } else if (this.score.score > 40 && this.score.score < 60) {
       if (Math.floor(Math.random() * 80) == 1) {
         this.obstacles.push(new Obstacles());
       }
-    } else if (60 < this.score.score < 80) {
+    } else if (this.score.score > 60 && this.score.score < 80) {
       if (Math.floor(Math.random() * 70) == 1) {
         this.obstacles.push(new Obstacles());
       }
-    } else if (80 < this.score.score < 100) {
+    } else if (this.score.score > 80 && this.score.score < 100) {
       if (Math.floor(Math.random() * 60) == 1) {
         this.obstacles.push(new Obstacles());
       }
-    } else if (100 < this.score.score < 120) {
+    } else if (this.score.score > 100 && this.score.score < 120) {
       if (Math.floor(Math.random() * 50) == 1) {
         this.obstacles.push(new Obstacles());
       }
-    } else if (120 < this.score.score < 140) {
+    } else if (this.score.score > 120 && this.score.score < 140) {
       if (Math.floor(Math.random() * 40) == 1) {
         this.obstacles.push(new Obstacles());
       }
-    } else if (140 < this.score.score < 160) {
+    } else if (this.score.score > 140 && this.score.score < 160) {
       if (Math.floor(Math.random() * 30) == 1) {
         this.obstacles.push(new Obstacles());
       }
