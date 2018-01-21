@@ -1,4 +1,4 @@
-# Oliver's Outer Space Dreamin'
+# Oliver's Outer Space Dream
 
 
 ### Functionality & MVP
@@ -24,3 +24,11 @@ Users will be able to:
 <b>Day 2:</b> Have extremely rudimentary styling with game play working (use boxes).<br/>
 <b>Day 3:</b> Finish game - make sure everything runs smoothly. Install the controls for the user to interact with the game. Style frontend.<br/>
 <b>Day 4:</b> Styling. Draw sprites.<br/>
+
+### Future Implementations
+[ ] Make Oliver grow wider as he eats more food
+
+### Credits
+Background song: Anamanaguchi - Meow
+Outerspace cat gif<a href="https://78.media.tumblr.com/4d6fb25b817d787557310fd9f855e05b/tumblr_ol823iKXBP1u4eu45o1_400.gif">Link</a>
+Game over cat meow sound: <a href="https://freesound.org/people/InspectorJ/sounds/415209/">Link</a>

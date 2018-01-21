@@ -198,6 +198,10 @@ $(window).ready(function(){
     }
   });
 
+  // window.addEventListener("click", function(e) {
+  //   if ()
+  // }
+
   requestAnimationFrame(game.loop());
 
 });
@@ -212,6 +216,8 @@ const Cat = __webpack_require__(1);
 const Food = __webpack_require__(5);
 const Score = __webpack_require__(4);
 const Obstacles = __webpack_require__(6);
+const gameOverScreen = __webpack_require__(7);
+const pauseScreen = __webpack_require__(8);
 
 class Game {
   constructor(canvas) {
@@ -222,20 +228,23 @@ class Game {
     this.food = [];
     this.obstacles = [];
     this.score = new Score(1);
-    this.setSounds();
 
-    this.gameState = "MENU_SCREEN";
+    this.gameState = "GAME_SCREEN";
     // this.togglePlay = this.togglePlay.bind(this);
-    // this.paused = false;
     // this.muteSounds();
     // this.muteSounds = false;
 
     this.loop = this.loop.bind(this);
 
+    this.backgroundMusic = new Audio('./assets/sounds/background.mp3');
+    this.backgroundMusic.loop = true;
+    this.catMeow = new Audio('./assets/sounds/cat_meow.mp3');
+
   }
 
   draw() {
-    if (this.gameState == "MENU_SCREEN") {
+    console.log(this.gameState);
+    if (this.gameState == "GAME_SCREEN") {
       this.background.draw(this.ctx);
 
       for (let i = 0; i < this.food.length; i++) {
@@ -290,7 +299,7 @@ class Game {
     for (let i = 0; i < this.obstacles.length; i++) {
       this.obstacles[i].update();
       if (this.checkObstacleHit(this.obstacles[i]) == true) {
-        // game over state
+        this.gameOver();
       } else if (this.obstacles[i].asteroidInBound() == false) {
         this.obstacles.splice(i, 1);
       }
@@ -314,7 +323,7 @@ class Game {
   }
 
   update() {
-    if (this.gameState == "MENU_SCREEN") {
+    if (this.gameState == "GAME_SCREEN") {
       this.background.update();
       this.cat.update();
       this.updateObstacles();
@@ -331,7 +340,8 @@ class Game {
   checkFoodHit(food) {
     if (this.cat.cat_loc_x + this.cat.catWidth > food.food_loc_x &&
         this.cat.cat_loc_y < food.food_loc_y + food.foodHeight &&
-        this.cat.cat_loc_y + this.cat.catHeight > food.food_loc_y) {
+        this.cat.cat_loc_y + this.cat.catHeight > food.food_loc_y &&
+        this.cat.cat_loc_x < food.food_loc_x + food.foodWidth) {
           return true;
       }
 
@@ -344,14 +354,10 @@ class Game {
   checkObstacleHit(obstacle) {
     if (this.cat.cat_loc_x + this.cat.catWidth > obstacle.asteroid_loc_x &&
         this.cat.cat_loc_y < obstacle.asteroid_loc_y + obstacle.asteroidHeight &&
-        this.cat.cat_loc_y + this.cat.catHeight > obstacle.asteroid_loc_y) {
+        this.cat.cat_loc_y + this.cat.catHeight > obstacle.asteroid_loc_y &&
+        this.cat.cat_loc_x < obstacle.asteroid_loc_x + obstacle.asteroidWidth) {
           return true;
-    }
-  }
-
-  setSounds() {
-    this.backgroundMusic = new Audio('./assets/sounds/background.mp3');
-    this.backgroundMusic.loop = true;
+    } // FIGURE OUT #S TO ADD BUFFER!!
   }
 
   // muteSounds() {
@@ -363,17 +369,25 @@ class Game {
 
   togglePauseGame() {
     if (this.gameState == "PAUSED") {
-      this.gameState = "MENU_SCREEN";
-    } else {
+      this.gameState = "GAME_SCREEN";
+      this.backgroundMusic.play();
+    } else if (this.gameState == "GAME_SCREEN") {
       this.gameState = "PAUSED";
+      this.backgroundMusic.pause();
+      pauseScreen(this.ctx);
     }
   }
 
-  togglePauseSounds() {
+  // togglePauseSounds() {
+  //   if (this.soundState = "")
+  // }
 
+  gameOver() {
+    gameOverScreen(this.ctx);
+    this.gameState = "GAME_OVER";
+    this.backgroundMusic.pause();
+    this.catMeow.play();
   }
-
-
 
 }
 module.exports = Game;
@@ -385,7 +399,7 @@ module.exports = Game;
 
 class Score {
   constructor(multiplier) {
-    this.score_location_x = 20;
+    this.score_location_x = 10;
     this.score_location_y = 20;
 
     this.score = 0;
@@ -393,7 +407,8 @@ class Score {
 
   draw(ctx) {
     ctx.font = "25px Visitor1";
-    ctx.fillStyle = 'white';
+    ctx.fillStyle = "white";
+    ctx.textAlign = "start";
     ctx.fillText(`Score: ${this.score}`, this.score_location_x, this.score_location_y);
   }
 
@@ -427,9 +442,11 @@ class Food {
     if ((Math.floor(Math.random() * 2) % 2) == 0) {
       this.foodType = "sushi";
       this.foodHeight = 35;
+      this.foodWidth = 50;
     } else {
       this.foodType = "drumstick";
       this.foodHeight = 50;
+      this.foodWidth = 30;
     }
   }
 
@@ -469,6 +486,7 @@ class Obstacles {
     this.asteroid_loc_x = 600;
     this.asteroid_loc_y = Math.floor(Math.random() * (270-10) + 10);
     this.asteroidHeight = 35;
+    this.asteroidWidth = 50;
   }
 
   update() {
@@ -489,6 +507,51 @@ class Obstacles {
 }
 
 module.exports = Obstacles;
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports) {
+
+const gameOverScreen = ctx => {
+  const text1 = "GAME OVER";
+  const text2 = "You woke Oliver up from his dream!";
+  const text3 = "Press 'r' to start dreaming again.";
+  ctx.textAlign = "center";
+  ctx.fillStyle = "#d7bb02";
+  ctx.strokeStyle = "black";
+  ctx.font = "60px Visitor1";
+  ctx.fillText(text1, 300, 130);
+  ctx.strokeText(text1, 300, 130);
+  ctx.font = "30px Visitor1";
+  ctx.fillText(text2, 300, 200);
+  ctx.strokeText(text2, 300, 200);
+  ctx.fillText(text3, 300, 230);
+  ctx.strokeText(text3, 300, 230);
+};
+
+module.exports = gameOverScreen;
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports) {
+
+const pauseScreen = ctx => {
+  const text1 = "PAUSED";
+  const text2 = "Press 'p' to resume dreaming!";
+  ctx.textAlign = "center";
+  ctx.fillStyle = "#d7bb02";
+  ctx.strokeStyle = "black";
+  ctx.font = "60px Visitor1";
+  ctx.fillText(text1, 300, 130);
+  ctx.strokeText(text1, 300, 130);
+  ctx.font = "30px Visitor1";
+  ctx.fillText(text2, 300, 200);
+  ctx.strokeText(text2, 300, 200);
+};
+
+module.exports = pauseScreen;
 
 
 /***/ })
