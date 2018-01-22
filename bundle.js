@@ -194,40 +194,37 @@ $(window).ready(function(){
   });
 
   window.addEventListener("keyup", function(e) {      // fall
-    if (e.keyCode == 32) {
+    if (e.keyCode == 32) { // space
       game.cat.cat_state = "fall";
     }
   });
 
   window.addEventListener("keydown", function(e) {    // start game from menu
-    if (e.keyCode == 83) {
+    if (e.keyCode == 83) { // s
       game.gameState = "GAME_SCREEN";
       game.backgroundMusic.play();
     }
   });
 
   window.addEventListener("keydown", function(e) {    // pause game
-    if (e.keyCode == 80) {
+    if (e.keyCode == 80) { // p
       game.togglePauseGame();
     }
   });
 
   window.addEventListener("keydown", function(e) {    // restart game on game over
-    if (e.keyCode == 82) {
+    if (e.keyCode == 82) { // r
       game.restart();
     }
   });
 
   const sound = document.getElementById("sound-btn");
-  sound.addEventListener("mousedown", function() {
+  sound.addEventListener("mousedown", function() {    // clicking music btn to mute
     const sound = document.getElementById("sound-btn");
     if (game.gameState == "GAME_SCREEN") {
       if (!game.backgroundMusic.paused) {
         $(sound).css('opacity', '0.4');
         game.backgroundMusic.pause();
-        jumpSound.pause();
-        game.catMeow.pause();
-        game.scorePoint.pause();
       } else {
         $(sound).css('opacity', '1.0');
         game.backgroundMusic.play();
@@ -266,9 +263,6 @@ class Game {
 
     this.gameState = "MENU_SCREEN";
     this.showMenuScreen();
-    // this.togglePlay = this.togglePlay.bind(this);
-    // this.muteSounds();
-    // this.muteSounds = false;
 
     this.loop = this.loop.bind(this);
 
@@ -385,21 +379,14 @@ class Game {
   //         rect1.y < rect2.y + rect2.h &&
   //         rect1.h + rect1.y > rect2.y)
 
-  checkObstacleHit(obstacle) {
+  checkObstacleHit(obstacle) {  // added buffer to objects
     if (this.cat.cat_loc_x - 8 + this.cat.catWidth - 10 > obstacle.asteroid_loc_x - 8 &&
         this.cat.cat_loc_y - 8 < obstacle.asteroid_loc_y - 8 + obstacle.asteroidHeight - 8 &&
         this.cat.cat_loc_y - 10 + this.cat.catHeight - 8 > obstacle.asteroid_loc_y - 8 &&
         this.cat.cat_loc_x - 20 < obstacle.asteroid_loc_x - 8 + obstacle.asteroidWidth - 25) {
           return true;
-    } // FIGURE OUT #S TO ADD BUFFER!!
+    }
   }
-
-  // muteSounds() {
-  //   document.getElementById('sound-btn').addEventListener('click', function(e) {
-  //     // alert('music toggle pressed');
-  //     this.backgroundMusic.pause();
-  //   });
-  // }
 
   togglePauseGame() {
     if (this.gameState == "PAUSED") {
@@ -427,6 +414,7 @@ class Game {
       this.score = new Score(1);
       this.gameState = "GAME_SCREEN";
       this.backgroundMusic = new Audio('./assets/sounds/background.mp3');
+      this.backgroundMusic.play();
     }
   }
 
@@ -604,17 +592,16 @@ module.exports = pauseScreen;
 /***/ (function(module, exports) {
 
 const menuScreen = ctx => {
-  console.log('happy');
   const text1 = "Oliver's Outer";
   const text2 = "Space Dream";
   const text3 = "Press 's' to START";
   const text4 = "©2018 KAT SIU";
-  ctx.font = "50px Visitor1";
   ctx.fillStyle = "black";
   ctx.fillRect(0, 0, 600, 360);
   ctx.textAlign = "center";
   ctx.fillStyle = "#d7bb02";
   ctx.strokeStyle = "black";
+  ctx.font = "50px Visitor1";
   ctx.fillText(text1, 300, 110);
   ctx.strokeText(text1, 300, 110);
   ctx.fillText(text2, 300, 150);
