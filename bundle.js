@@ -384,10 +384,10 @@ class Game {
   //         rect1.h + rect1.y > rect2.y)
 
   checkObstacleHit(obstacle) {
-    if (this.cat.cat_loc_x + this.cat.catWidth > obstacle.asteroid_loc_x &&
-        this.cat.cat_loc_y < obstacle.asteroid_loc_y + obstacle.asteroidHeight &&
-        this.cat.cat_loc_y + this.cat.catHeight > obstacle.asteroid_loc_y &&
-        this.cat.cat_loc_x < obstacle.asteroid_loc_x + obstacle.asteroidWidth) {
+    if (this.cat.cat_loc_x - 8 + this.cat.catWidth - 10 > obstacle.asteroid_loc_x - 8 &&
+        this.cat.cat_loc_y - 8 < obstacle.asteroid_loc_y - 8 + obstacle.asteroidHeight - 8 &&
+        this.cat.cat_loc_y - 10 + this.cat.catHeight - 8 > obstacle.asteroid_loc_y - 8 &&
+        this.cat.cat_loc_x - 20 < obstacle.asteroid_loc_x - 8 + obstacle.asteroidWidth - 25) {
           return true;
     } // FIGURE OUT #S TO ADD BUFFER!!
   }
@@ -557,7 +557,7 @@ const gameOverScreen = ctx => {
   const text2 = "You woke Oliver up from his dream!";
   const text3 = "Press 'r' to start dreaming again.";
   ctx.textAlign = "center";
-  ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+  ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
   ctx.fillRect(0, 0, 600, 360);
   ctx.fillStyle = "#d7bb02";
   ctx.strokeStyle = "black";
@@ -582,7 +582,7 @@ const pauseScreen = ctx => {
   const text1 = "PAUSED";
   const text2 = "Press 'p' to resume dreaming!";
   ctx.textAlign = "center";
-  ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+  ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
   ctx.fillRect(0, 0, 600, 360);
   ctx.fillStyle = "#d7bb02";
   ctx.strokeStyle = "black";

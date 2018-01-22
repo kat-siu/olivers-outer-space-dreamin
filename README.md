@@ -25,12 +25,14 @@ Users will be able to:
 <b>Day 3:</b> Finish game - make sure everything runs smoothly. Install the controls for the user to interact with the game. Style frontend.<br/>
 <b>Day 4:</b> Styling. Draw sprites.<br/>
 
-### Future Implementations
-[ ] Make Oliver grow wider as he eats more food <br/>
-[ ] High score board<br/>
+### Future Feature Implementations
+- [ ] High score board<br/>
+- [ ] Make Oliver grow wider as he eats more food <br/>
+- [ ] Make background stars twinkle <br/>
 
 ### Credits
 Background song: Anamanaguchi - Meow <br/>
-Outerspace cat gif<a  href="https://78.media.tumblr.com/4d6fb25b817d787557310fd9f855e05b/tumblr_ol823iKXBP1u4eu45o1_400.gif">Link</a> <br/>
-Game over cat meow sound: <a href="https://freesound.org/people/InspectorJ/sounds/415209/">Link</a> <br/>
-Jump sound: <a href="http://www.soundsboom.com/sound/47011/beeps-8bit-jump-10">Link</a> <br/>
+Outerspace cat gif<a  href="https://78.media.tumblr.com/4d6fb25b817d787557310fd9f855e05b/tumblr_ol823iKXBP1u4eu45o1_400.gif">Source</a> <br/>
+Game over cat meow sound: <a href="https://freesound.org/people/InspectorJ/sounds/415209/">Source</a> <br/>
+Jump sound: <a href="http://www.soundsboom.com/sound/47011/beeps-8bit-jump-10">Source</a> <br/>
+8-bit keyboard: <a href="https://darokin.deviantart.com/art/Pixel-Art-Keyboard-297096800">Source</a>
