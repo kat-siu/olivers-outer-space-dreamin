@@ -182,7 +182,7 @@ $(window).ready(function(){
   const jumpSound = new Audio('./assets/sounds/jump.mp3');
 
 
-  window.addEventListener("keypress", function(e) {
+  window.addEventListener("keypress", function(e) {     // jump
     if (e.keyCode == 32) {
       e.preventDefault();
       game.cat.cat_state = "jump";
@@ -192,19 +192,25 @@ $(window).ready(function(){
     }
   });
 
-  window.addEventListener("keyup", function(e) {
+  window.addEventListener("keyup", function(e) {      // fall
     if (e.keyCode == 32) {
       game.cat.cat_state = "fall";
     }
   });
 
-  window.addEventListener("keydown", function(e) {
+  window.addEventListener("keydown", function(e) {    // start game from menu
+    if (e.keyCode == 83) {
+      game.gameState = "GAME_SCREEN";
+    }
+  });
+
+  window.addEventListener("keydown", function(e) {    // pause game
     if (e.keyCode == 80) {
       game.togglePauseGame();
     }
   });
 
-  window.addEventListener("keydown", function(e) {
+  window.addEventListener("keydown", function(e) {    // restart game on game over
     if (e.keyCode == 82) {
       game.restart();
     }
@@ -224,6 +230,7 @@ const Cat = __webpack_require__(1);
 const Food = __webpack_require__(5);
 const Score = __webpack_require__(4);
 const Obstacles = __webpack_require__(6);
+const menuScreen = __webpack_require__(9);
 const gameOverScreen = __webpack_require__(7);
 const pauseScreen = __webpack_require__(8);
 
@@ -236,9 +243,10 @@ class Game {
     this.food = [];
     this.obstacles = [];
     this.score = new Score(1);
-    this.muteSounds();
+    // this.muteSounds();
 
-    this.gameState = "GAME_SCREEN";
+    this.gameState = "MENU_SCREEN";
+    this.showMenuScreen();
     // this.togglePlay = this.togglePlay.bind(this);
     // this.muteSounds();
     // this.muteSounds = false;
@@ -250,6 +258,15 @@ class Game {
     this.catMeow = new Audio('./assets/sounds/cat_meow.mp3');
     this.scorePoint = new Audio('./assets/sounds/Collect_Point_00.mp3');
 
+  }
+
+  showMenuScreen() {
+    if (this.gameState == "MENU_SCREEN") {
+      console.log('poopie');
+      menuScreen(this.ctx);
+    } else {
+      this.gameState = "GAME_SCREEN";
+    }
   }
 
   draw() {
@@ -301,6 +318,10 @@ class Game {
       }
     } else if (this.score.score > 140 && this.score.score < 160) {
       if (Math.floor(Math.random() * 30) == 1) {
+        this.obstacles.push(new Obstacles());
+      }
+    } else {
+      if (Math.floor(Math.random() * 10) == 1) {
         this.obstacles.push(new Obstacles());
       }
     }
@@ -403,6 +424,7 @@ class Game {
       this.obstacles = [];
       this.score = new Score(1);
       this.gameState = "GAME_SCREEN";
+      this.backgroundMusic = new Audio('./assets/sounds/background.mp3');
     }
   }
 
@@ -535,6 +557,8 @@ const gameOverScreen = ctx => {
   const text2 = "You woke Oliver up from his dream!";
   const text3 = "Press 'r' to start dreaming again.";
   ctx.textAlign = "center";
+  ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+  ctx.fillRect(0, 0, 600, 360);
   ctx.fillStyle = "#d7bb02";
   ctx.strokeStyle = "black";
   ctx.font = "60px Visitor1";
@@ -558,6 +582,8 @@ const pauseScreen = ctx => {
   const text1 = "PAUSED";
   const text2 = "Press 'p' to resume dreaming!";
   ctx.textAlign = "center";
+  ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+  ctx.fillRect(0, 0, 600, 360);
   ctx.fillStyle = "#d7bb02";
   ctx.strokeStyle = "black";
   ctx.font = "60px Visitor1";
@@ -569,6 +595,37 @@ const pauseScreen = ctx => {
 };
 
 module.exports = pauseScreen;
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports) {
+
+const menuScreen = ctx => {
+  console.log('happy');
+  const text1 = "Oliver's Outer";
+  const text2 = "Space Dream";
+  const text3 = "Press 's' to START";
+  const text4 = "©2018 KAT SIU";
+  ctx.font = "50px Visitor1";
+  ctx.fillStyle = "black";
+  ctx.fillRect(0, 0, 600, 360);
+  ctx.textAlign = "center";
+  ctx.fillStyle = "#d7bb02";
+  ctx.strokeStyle = "black";
+  ctx.fillText(text1, 300, 110);
+  ctx.strokeText(text1, 300, 110);
+  ctx.fillText(text2, 300, 150);
+  ctx.strokeText(text2, 300, 150);
+  ctx.font = "40px Visitor1";
+  ctx.fillText(text3, 300, 250);
+  ctx.strokeText(text3, 300, 250);
+  ctx.font = "20px Visitor1";
+  ctx.fillText(text4, 300, 290);
+  ctx.strokeText(text4, 300, 290);
+};
+
+module.exports = menuScreen;
 
 
 /***/ })

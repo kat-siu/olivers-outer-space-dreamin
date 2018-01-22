@@ -46,7 +46,8 @@ h1 {
 
 canvas {
   position: absolute;
-  margin: 107px 0px 0px 12px;  width: 600px;
+  margin: 107px 0px 0px 15px;  
+  width: 600px;
   border: 1px solid black;
   z-index: 3;
   -webkit-box-sizing: border-box;
@@ -81,6 +82,19 @@ canvas {
   margin-top: 172px;
 }
 
+#instructions {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  margin: -54px auto;
+  justify-content: center;
+  font-size: 22px;
+  padding-left: 50px;
+  margin-bottom: 36px;
+  position: relative;
+  text-align: center;
+}
+
 #icon-container {
   width: 15%;
   display: flex;
@@ -92,4 +106,14 @@ canvas {
 
 #icon-container img:hover {
   opacity: 0.6;
+}
+
+hr {
+  display: block;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  margin-left: auto;
+  margin-right: auto;
+  border-style: inset;
+  border-width: 1px;
 }

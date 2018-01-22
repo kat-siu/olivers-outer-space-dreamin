@@ -26,7 +26,8 @@ Users will be able to:
 <b>Day 4:</b> Styling. Draw sprites.<br/>
 
 ### Future Implementations
-[ ] Make Oliver grow wider as he eats more food
+[ ] Make Oliver grow wider as he eats more food <br/>
+[ ] High score board<br/>
 
 ### Credits
 Background song: Anamanaguchi - Meow <br/>
