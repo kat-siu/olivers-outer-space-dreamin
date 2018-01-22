@@ -96,6 +96,11 @@ canvas {
   text-align: center;
 }
 
+#instructions a:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}
+
 #icon-container {
   width: 20%;
   height: 40px;

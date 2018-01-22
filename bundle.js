@@ -188,6 +188,7 @@ $(window).ready(function(){
       game.cat.cat_state = "jump";
       if (game.cat.cat_loc_y >= 269) {
         jumpSound.play();
+        jumpSound.volume = 0.2;
       }
     }
   });
@@ -201,6 +202,7 @@ $(window).ready(function(){
   window.addEventListener("keydown", function(e) {    // start game from menu
     if (e.keyCode == 83) {
       game.gameState = "GAME_SCREEN";
+      game.backgroundMusic.play();
     }
   });
 
@@ -213,6 +215,23 @@ $(window).ready(function(){
   window.addEventListener("keydown", function(e) {    // restart game on game over
     if (e.keyCode == 82) {
       game.restart();
+    }
+  });
+
+  const sound = document.getElementById("sound-btn");
+  sound.addEventListener("mousedown", function() {
+    const sound = document.getElementById("sound-btn");
+    if (game.gameState == "GAME_SCREEN") {
+      if (!game.backgroundMusic.paused) {
+        $(sound).css('opacity', '0.4');
+        game.backgroundMusic.pause();
+        jumpSound.pause();
+        game.catMeow.pause();
+        game.scorePoint.pause();
+      } else {
+        $(sound).css('opacity', '1.0');
+        game.backgroundMusic.play();
+      }
     }
   });
 
@@ -256,13 +275,13 @@ class Game {
     this.backgroundMusic = new Audio('./assets/sounds/background.mp3');
     this.backgroundMusic.loop = true;
     this.catMeow = new Audio('./assets/sounds/cat_meow.mp3');
+    this.catMeow.volume = 0.2;
     this.scorePoint = new Audio('./assets/sounds/Collect_Point_00.mp3');
-
+    this.scorePoint.volume = 0.5;
   }
 
   showMenuScreen() {
     if (this.gameState == "MENU_SCREEN") {
-      console.log('poopie');
       menuScreen(this.ctx);
     } else {
       this.gameState = "GAME_SCREEN";
@@ -283,7 +302,6 @@ class Game {
 
       this.cat.draw(this.ctx);
       this.score.draw(this.ctx);
-      this.backgroundMusic.play();
     }
   }
 
@@ -292,36 +310,20 @@ class Game {
       if (Math.floor(Math.random() * 100) == 1) {
         this.obstacles.push(new Obstacles());
       }
-    } else if (this.score.score > 20 && this.score.score < 40) {
+    } else if (this.score.score > 40 && this.score.score < 80) {
       if (Math.floor(Math.random() * 90) == 1) {
         this.obstacles.push(new Obstacles());
       }
-    } else if (this.score.score > 40 && this.score.score < 60) {
+    } else if (this.score.score > 80 && this.score.score < 120) {
       if (Math.floor(Math.random() * 80) == 1) {
         this.obstacles.push(new Obstacles());
       }
-    } else if (this.score.score > 60 && this.score.score < 80) {
+    } else if (this.score.score > 120 && this.score.score < 160) {
       if (Math.floor(Math.random() * 70) == 1) {
         this.obstacles.push(new Obstacles());
       }
-    } else if (this.score.score > 80 && this.score.score < 100) {
-      if (Math.floor(Math.random() * 60) == 1) {
-        this.obstacles.push(new Obstacles());
-      }
-    } else if (this.score.score > 100 && this.score.score < 120) {
-      if (Math.floor(Math.random() * 50) == 1) {
-        this.obstacles.push(new Obstacles());
-      }
-    } else if (this.score.score > 120 && this.score.score < 140) {
-      if (Math.floor(Math.random() * 40) == 1) {
-        this.obstacles.push(new Obstacles());
-      }
-    } else if (this.score.score > 140 && this.score.score < 160) {
-      if (Math.floor(Math.random() * 30) == 1) {
-        this.obstacles.push(new Obstacles());
-      }
     } else {
-      if (Math.floor(Math.random() * 10) == 1) {
+      if (Math.floor(Math.random() * 60) == 1) {
         this.obstacles.push(new Obstacles());
       }
     }
@@ -370,10 +372,10 @@ class Game {
   }
 
   checkFoodHit(food) {
-    if (this.cat.cat_loc_x + this.cat.catWidth > food.food_loc_x &&
-        this.cat.cat_loc_y < food.food_loc_y + food.foodHeight &&
-        this.cat.cat_loc_y + this.cat.catHeight > food.food_loc_y &&
-        this.cat.cat_loc_x < food.food_loc_x + food.foodWidth) {
+    if (this.cat.cat_loc_x - 8 + this.cat.catWidth - 10 > food.food_loc_x - 8 &&
+        this.cat.cat_loc_y - 8 < food.food_loc_y - 8 + food.foodHeight - 8 &&
+        this.cat.cat_loc_y - 10 + this.cat.catHeight - 8 > food.food_loc_y - 8 &&
+        this.cat.cat_loc_x - 20 < food.food_loc_x - 8 + food.foodWidth - 25) {
           return true;
       }
 
@@ -392,12 +394,12 @@ class Game {
     } // FIGURE OUT #S TO ADD BUFFER!!
   }
 
-  muteSounds() {
-    document.getElementById('sound-btn').addEventListener('click', function(e) {
-      // alert('music toggle pressed');
-      this.backgroundMusic.pause();
-    });
-  }
+  // muteSounds() {
+  //   document.getElementById('sound-btn').addEventListener('click', function(e) {
+  //     // alert('music toggle pressed');
+  //     this.backgroundMusic.pause();
+  //   });
+  // }
 
   togglePauseGame() {
     if (this.gameState == "PAUSED") {
