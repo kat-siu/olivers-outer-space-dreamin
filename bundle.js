@@ -187,8 +187,10 @@ $(window).ready(function(){
       e.preventDefault();
       game.cat.cat_state = "jump";
       if (game.cat.cat_loc_y >= 269) {
-        jumpSound.play();
-        jumpSound.volume = 0.2;
+        if (game.volumeState === "ON") {
+          jumpSound.play();
+          jumpSound.volume = 0.2;
+        }
       }
     }
   });
@@ -225,9 +227,11 @@ $(window).ready(function(){
       if (!game.backgroundMusic.paused) {
         $(sound).css('opacity', '0.4');
         game.backgroundMusic.pause();
+        game.volumeState = "OFF";
       } else {
         $(sound).css('opacity', '1.0');
         game.backgroundMusic.play();
+        game.volumeState = "ON";
       }
     }
   });
@@ -262,6 +266,7 @@ class Game {
     // this.muteSounds();
 
     this.gameState = "MENU_SCREEN";
+    this.volumeState = "ON";
     this.showMenuScreen();
 
     this.loop = this.loop.bind(this);
@@ -271,7 +276,7 @@ class Game {
     this.catMeow = new Audio('./assets/sounds/cat_meow.mp3');
     this.catMeow.volume = 0.2;
     this.scorePoint = new Audio('./assets/sounds/Collect_Point_00.mp3');
-    this.scorePoint.volume = 0.5;
+    this.scorePoint.volume = 0.6;
   }
 
   showMenuScreen() {
@@ -341,8 +346,10 @@ class Game {
       this.food[i].update();
       if (this.checkFoodHit(this.food[i]) == true) {
         this.food.splice(i, 1);
-        this.scorePoint.pause();
-        this.scorePoint.play();
+        if (this.volumeState === "ON") {
+          this.scorePoint.play();
+          this.scorePoint.volume = 0.6;
+        }
         this.score.addPoints();
       } else if (this.food[i].foodInBound() == false) {
         this.food.splice(i, 1);
@@ -403,7 +410,9 @@ class Game {
     gameOverScreen(this.ctx);
     this.gameState = "GAME_OVER";
     this.backgroundMusic.pause();
-    this.catMeow.play();
+    if (this.volumeState === "ON") {
+      this.catMeow.play();
+    }
   }
 
   restart() {
