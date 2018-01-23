@@ -86,14 +86,14 @@ canvas {
 }
 
 #instructions {
-  width: 40%;
+  width: 30%;
   display: flex;
-  flex-direction: column;
   margin: -35px auto;
   font-size: 40px;
   margin-bottom: 36px;
+  flex-direction: row;
+  justify-content: space-around;
   position: relative;
-  text-align: center;
 }
 
 #instructions a:hover {
@@ -117,20 +117,11 @@ canvas {
   cursor: pointer;
 }
 
-hr {
-  display: block;
-  margin-top: 0.5em;
-  margin-bottom: 0.5em;
-  margin-left: auto;
-  margin-right: auto;
-  border-style: inset;
-  border-width: 1px;
-}
-
 .keyboard {
   position: relative;
   width: 450px;
-  margin: 10px auto;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .hiddenimg-about, .hiddenimg-controls {
@@ -140,23 +131,17 @@ hr {
 .hiddentxt-about:hover ~ .hiddenimg-about {
   display: block;
   z-index: 101;
-  font-size: 30px;
+  font-size: 25px;
+  width: 700px;
+  margin-left: -100px;
 }
-/*
-.hiddentxt-about:hover ~ .hiddentxt2 {
-  display: block;
-  z-index: 101;
-  font-size: 30px;
-}
-
-/* .hiddentxt-controls:hover ~ .hiddenimg {
-  display: block;
-  z-index: 101;
-  font-size: 30px;
-} */
 
 .hiddentxt-controls:hover ~ .hiddenimg-controls {
   display: block;
+  position: relative;
   z-index: 101;
-  font-size: 30px;
+}
+
+.about {
+  width: 200px;
 }
