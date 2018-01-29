@@ -394,10 +394,10 @@ class Game {
   //         rect1.h + rect1.y > rect2.y)
 
   checkObstacleHit(obstacle) {  // added buffer to objects
-    if (this.cat.cat_loc_x - 20 + this.cat.catWidth - 20 > obstacle.asteroid_loc_x - 20 &&
-        this.cat.cat_loc_y - 20 < obstacle.asteroid_loc_y - 20 + obstacle.asteroidHeight - 8 &&
-        this.cat.cat_loc_y - 20 + this.cat.catHeight - 20 > obstacle.asteroid_loc_y - 20 &&
-        this.cat.cat_loc_x - 20 < obstacle.asteroid_loc_x - 30 + obstacle.asteroidWidth - 25) {
+    if (this.cat.cat_loc_x - 15 + this.cat.catWidth - 15 > obstacle.asteroid_loc_x - 15 &&
+        this.cat.cat_loc_y - 15 < obstacle.asteroid_loc_y - 15 + obstacle.asteroidHeight - 8 &&
+        this.cat.cat_loc_y - 15 + this.cat.catHeight - 15 > obstacle.asteroid_loc_y - 15 &&
+        this.cat.cat_loc_x - 15 < obstacle.asteroid_loc_x - 30 + obstacle.asteroidWidth - 30) {
           return true;
     }
   }
@@ -550,7 +550,6 @@ class Obstacles {
     ctx.translate(this.asteroid_loc_x, this.asteroid_loc_y);
     ctx.rotate((Math.PI / 180) * (this.ang += .2));
     ctx.drawImage(this.asteroid, 0, 0);
-    // ctx.drawImage(this.asteroid, this.asteroid_loc_x, this.asteroid_loc_y);
     ctx.restore();
   }
 
@@ -564,8 +563,6 @@ class Obstacles {
 }
 
 module.exports = Obstacles;
-
-this.angleOfRotation = Math.random() < 0.5 ? -1 * Math.random() : 1 * Math.random();
 
 
 /***/ }),
@@ -21072,6 +21069,9 @@ class Leaderboard {
   }
 
   writeScoreData(name, score) {
+    if (name.trim() == "") {
+      name = "Oliver";
+    }
     this.firebaseApp.database().ref('scores/').push({
       name: name,
       score: score
