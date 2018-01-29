@@ -30,10 +30,11 @@ Users will be able to:
 - [ ] Make Oliver grow wider as he eats more food <br/>
 - [ ] Make background stars twinkle <br/>
 - [ ] Create an interactive game menu
+- [ ] Responsive
 
 ### Credits
-Background song: Anamanaguchi - Meow <br/>
-Outerspace cat gif: <a  href="https://78.media.tumblr.com/4d6fb25b817d787557310fd9f855e05b/tumblr_ol823iKXBP1u4eu45o1_400.gif">Source</a> <br/>
-Game over cat meow sound: <a href="https://freesound.org/people/InspectorJ/sounds/415209/">Source</a> <br/>
-Jump sound: <a href="http://www.soundsboom.com/sound/47011/beeps-8bit-jump-10">Source</a> <br/>
-8-bit keyboard: <a href="https://darokin.deviantart.com/art/Pixel-Art-Keyboard-297096800">Source</a>
+- Background song: Anamanaguchi - Meow <br/>
+- Outerspace cat gif: <a  href="https://78.media.tumblr.com/4d6fb25b817d787557310fd9f855e05b/tumblr_ol823iKXBP1u4eu45o1_400.gif">Source</a> <br/>
+- Game over cat meow sound: <a href="https://freesound.org/people/InspectorJ/sounds/415209/">Source</a> <br/>
+- Jump sound: <a href="http://www.soundsboom.com/sound/47011/beeps-8bit-jump-10">Source</a> <br/>
+- 8-bit keyboard: <a href="https://darokin.deviantart.com/art/Pixel-Art-Keyboard-297096800">Source</a>

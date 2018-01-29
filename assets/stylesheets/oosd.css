@@ -88,9 +88,9 @@ canvas {
 #instructions {
   width: 30%;
   display: flex;
-  margin: -35px auto;
+  margin: 125px auto;
   font-size: 40px;
-  margin-bottom: 36px;
+  margin-bottom: 10px;
   flex-direction: row;
   justify-content: space-around;
   position: relative;
@@ -109,7 +109,7 @@ canvas {
   justify-content: space-between;
   margin: 0 auto;
   cursor: pointer;
-  margin-top: 100px;
+  margin-top: 135px;
 }
 
 #icon-container img:hover {
@@ -130,10 +130,11 @@ canvas {
 
 .hiddentxt-about:hover ~ .hiddenimg-about {
   display: block;
-  z-index: 101;
+  z-index: 109;
   font-size: 25px;
-  width: 700px;
+  width: 720px;
   margin-left: -100px;
+  position: relative;
 }
 
 .hiddentxt-controls:hover ~ .hiddenimg-controls {
@@ -144,4 +145,18 @@ canvas {
 
 .about {
   width: 200px;
+  position: relative;
+}
+
+.score-board {
+  position: relative;
+  padding: 20px;
+  margin: -483px 0 0 85px;
+  width: 15%;
+  font-size: 20px;
+  text-align: center;
+}
+
+.score-board h2 {
+  font-size: 25px;
 }

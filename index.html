@@ -4,6 +4,7 @@
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
   <meta charset="UTF-8">
   <title>Oliver's Outer Space Dream</title>
+  <script src="https://www.gstatic.com/firebasejs/4.9.0/firebase.js"></script>
   <link rel="stylesheet" type="text/css" href="./assets/stylesheets/reset.css" />
   <link rel="stylesheet" type="text/css" media="screen" href="./assets/stylesheets/oosd.css">
   <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
@@ -26,19 +27,27 @@
       <img src="./assets/images/music_note.png" class="music-note">
     </button>
   </div>
+
   <img src="./assets/images/bubble.png" class="thought-bubbles">
   <a href="https://www.instagram.com/hungryhungryoliver/" target="_blank"><img src="./assets/images/oliver.png" class="oliver"></a>
   <img src="./assets/images/snooze.gif" class="snooze">
+
+  <div class="score-board">
+     <h2 class="scores-header">High Score Board (AKA Oliver's Favorite Players)</h2>
+     <br/>
+     <ol id="scores">
+     </ol>
+     <br/>
+     <br/>
+     <div class="name-input">
+       Enter your name:
+       <br/>
+       <input type="text" id="user-name" placeholder="Oliver" defaultValue="Oliver" maxlength="15"/>
+       <p id="name-feedback"></p>
+     </div>
+   </div>
+
   <div id="instructions">
-    <!-- <p>It's up to *YOU* to fulfill Oliver's dream of being weightless in outer space, eating an endless amount of sushi and drumsticks. Avoid the asteroids, or Oliver will be one unhappy kitty...</p>
-    <hr> -->
-    <!-- <ul>
-      <li>Press 'space' to jump</li>
-      <li>Press 's' to start game</li>
-      <li>Press 'p' to pause</li>
-      <li>Press 'r' to restart on game over</li>
-    </ul> -->
-    <!-- <img src="./assets/images/keyboard.png" class="keyboard"> -->
     <div class="about">
       <span class="hiddentxt-about"><a href="#">About</a></span><span class="hiddenimg-about">Oliver dreams of floating weightlessly in outer space, eating all the sushi & drumsticks that fill his heart with content. It's up to *YOU* to get as many food items as you can to increase your score! Keep afloat by pressing/holding the *SPACE BAR*. Avoid the asteroids, or Oliver will be one angry cat if he's awoken...</span>
     </div>
@@ -52,5 +61,18 @@
     <a href="https://github.com/kat-siu" target="_blank"><img src="./assets/images/github.png" width="30" /></a><br />
     <a href="https://www.linkedin.com/in/katsiu/" target="_blank"><img src="./assets/images/linkedin.png" width="30" /></a><br />
   </div>
+
+  <script type="text/javascript">
+    var sc_project=11607325;
+    var sc_invisible=1;
+    var sc_security="18a83a55";
+    var scJsHost = (("https:" == document.location.protocol) ?
+    "https://secure." : "http://www.");
+    </script>
+    <script type="text/javascript"
+    src="https://www.statcounter.com/counter/counter.js"
+    async>
+  </script>
+  
 </body>
 </html>
