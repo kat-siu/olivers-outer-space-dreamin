@@ -1,11 +1,14 @@
 # Oliver's Outer Space Dream
 
+<a href="www.katsiu.com/olivers-outer-space-dreamin/" target="_blank"><b>Live</b></a>
+
+Oliver is doing what he does best - cat napping! He's dreaming of being in outer space, eating all the sushi and drumsticks he wants.  Press <b>space</b> to jump, hold <b>space</b> to float upwards, collect as many food items as you can, and avoid the asteroids! If you lose, Oliver will wake up from his nap, and he's not gonna be too happy with you...
+
+<img src="https://s3.us-east-2.amazonaws.com/gameshelf/oosd.gif">
 
 ### Functionality & MVP
-Oliver is doing what he does best - cat napping! He's dreaming of being in outer space, eating all the sushi and chicken wings he wants.  Press <b>space</b> to jump, collect as many food items as you can, and avoid the obstacles! If you lose, Oliver will wake up
-from his nap, and he's not gonna be too happy with you...
 
-Users will be able to:
+<b>Users are able to:</b>
 - Toggle audio on/off
 - Pause/Restart the game
 
@@ -14,21 +17,23 @@ Users will be able to:
 
 ### Technologies
 - JavaScript
-- HTML5
+- HTML5 Canvas
+- Google Firebase
 
 ### Basic Wireframe
 <img src="https://s3.us-east-2.amazonaws.com/app-academy-portfolio/wireframe.png" width="500">
 
 ### Implementation Timeline
-<b>Day 1:</b> Setup canvas. Start on game logic. <br/>
-<b>Day 2:</b> Have extremely rudimentary styling with game play working (use boxes).<br/>
-<b>Day 3:</b> Finish game - make sure everything runs smoothly. Install the controls for the user to interact with the game. Style frontend.<br/>
-<b>Day 4:</b> Styling. Draw sprites.<br/>
+<b>Day 1:</b> Setup canvas. Tested rendering objects on canvas.  <br/>
+<b>Day 2:</b> Created parallax background class. Created cat class and event listeners on keypress.<br/>
+<b>Day 3:</b> Created asteroid and food classes (similar methods). Added scores. Started on collision detection. <br/>
+<b>Day 4:</b> Added rotation to asteroids. Added buffer to collision detection. Created game states and start/pause/game over screens. <br/>
+<b>Day 5:</b> Styling. Added high score board using Google Firebase. <br/>
 
 ### Future Feature Implementations
-- [ ] High score board<br/>
-- [ ] Make Oliver grow wider as he eats more food <br/>
-- [ ] Make background stars twinkle <br/>
+* [x] High score board
+- [ ] Make Oliver grow wider as he eats more food 
+- [ ] Make background stars twinkle
 - [ ] Create an interactive game menu
 - [ ] Responsive
 
